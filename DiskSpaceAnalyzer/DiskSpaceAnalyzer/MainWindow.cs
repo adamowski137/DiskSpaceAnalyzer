@@ -16,11 +16,11 @@ namespace DiskSpaceAnalyzer
     {
         private string selectedOption = "";
         private string selectedNode = "/";
-        private Dictionary<string, int> extensions = new Dictionary<string, int>();
+        private SortedDictionary<string, int> extensions;
         private int total;
         public MainWindow()
         {
-
+            extensions = new SortedDictionary<string, int>();
             this.MinimumSize = new Size(Constants.MainWindowWidth, Constants.MainWindowHeight);
             InitializeComponent();
             FileCounterProgresBar.Visible = true;
@@ -69,7 +69,9 @@ namespace DiskSpaceAnalyzer
                 { 
                     if (node.Text == Constants.FileNodeName)
                         foreach (var file in Directory.GetFiles(e.Node.Text))
+                        {
                             node.Nodes.Add(file);
+                        }
                     else
                     {
                         foreach(var dir in Directory.GetDirectories(node.Text))
@@ -102,13 +104,14 @@ namespace DiskSpaceAnalyzer
         {
             BackgroundWorker backgroundWorker = sender as BackgroundWorker;
             var ans = WalkDirectoryTree(selectedNode, 0, backgroundWorker, e);
-            e.Result = ans.files.ToString() + "," +
+            e.Result = 
+                ans.files.ToString() + "," +
                 ans.size.ToString() + "," +
                 ans.subdirectories.ToString() + "," +
                 Directory.GetLastAccessTimeUtc(selectedNode).ToString() + "," + 
                 (ans.files + ans.subdirectories).ToString();
         }
-        (int files, int size, int subdirectories) WalkDirectoryTree(string root, int level, BackgroundWorker worker, DoWorkEventArgs e)
+        (int files, long size, int subdirectories) WalkDirectoryTree(string root, int level, BackgroundWorker worker, DoWorkEventArgs e)
         {
 
             if (worker.CancellationPending)
@@ -120,14 +123,14 @@ namespace DiskSpaceAnalyzer
             if(!Directory.Exists(root) && !File.Exists(root)) return(0, 0, 0);
 
             int files = 0;
-            int size = 0;
+            long size = 0;
             int subdirectories = 0;
             string[] dirs;
             
             if(File.Exists(root))
             {
                 FileInfo fi = new FileInfo(root);
-                return (1, (int) fi.Length, 0); 
+                return (1, fi.Length, 0); 
             }
 
             try
@@ -137,7 +140,7 @@ namespace DiskSpaceAnalyzer
                 foreach (var dir in dirs)
                 {
                     subdirectories++;
-                    (int t1, int t2, int t3) = WalkDirectoryTree(dir, level + 1, worker, e);
+                    (int t1, long t2, int t3) = WalkDirectoryTree(dir, level + 1, worker, e);
                     j++;
                     files += t1;
                     size += t2;
@@ -156,7 +159,11 @@ namespace DiskSpaceAnalyzer
                     files++;
                     FileInfo fi = new FileInfo(file);
                     size += (int) fi.Length;
-                    extensions[fi.Extension]++;
+                    if(extensions.ContainsKey(fi.Extension))
+                        extensions[fi.Extension] += 1;
+                    else
+                        extensions[fi.Extension] = 1;
+
                 }
             }
             catch{ }
@@ -168,7 +175,6 @@ namespace DiskSpaceAnalyzer
 
         private void FileCounter_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            extensions = new Dictionary<string, int>();
             if(!e.Cancelled)
             {
                 
@@ -181,6 +187,7 @@ namespace DiskSpaceAnalyzer
                 pathLabel.Text = selectedNode;
 
                 total = int.Parse(ans[0]);
+                
             }
         }
 
@@ -198,6 +205,7 @@ namespace DiskSpaceAnalyzer
             {
                 Application.DoEvents();
             }
+            extensions.Clear();
             FileCounter.RunWorkerAsync();
         }
 
@@ -209,39 +217,97 @@ namespace DiskSpaceAnalyzer
 
         private void ChartsTab_Paint(object sender, PaintEventArgs e)
         {
-            //int[] data = { 25, 25, 20, 25, 5, 20, 5 };
-            int[] data = extensions.Select(x => (int)((double) (x.Value) / total) * 100 ).OrderByDescending(x => x).Take(10).ToArray();
+            while(FileCounter.IsBusy)
+            {
+                Application.DoEvents();
+            }
+            (string, int)[] data = extensions.Select(x => (x.Key, x.Value)).OrderByDescending(x => x.Value).Take(Constants.ChartCategoriesNumber).ToArray();
             if (data.Length == 0)
                 return;
+            Random rnd = new Random();
             Graphics g = e.Graphics;
-            DrawPieChart(g,      ChartsTab.Width/4, ChartsTab.Height/2, (ChartsTab.Width / 4) - Constants.ChartPieMargin, data);
-            DrawPieChart(g,  3 * ChartsTab.Width / 4, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.ChartPieMargin, data);
+            Color[] colors = new Color[Constants.ChartCategoriesNumber];
+            for (int i = 0; i < Constants.ChartCategoriesNumber; i++)
+            {
+                colors[i] = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+            }
+            DrawBarChart(g, Constants.ChartMargin, Constants.ChartMargin, ChartsTab.Height - 2 * Constants.ChartMargin, (ChartsTab.Width - 2 * Constants.ChartMargin)/2, data, colors);
+            if(SelectChartBox.SelectedIndex == 0)
+            {
+                DrawPieChart(g,     ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors);
+                DrawLegend(g,       ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors);
+                DrawPieChart(g, 3 * ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors);
+                DrawLegend(g, 3 *   ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors);
+            }
 
         }
-        private void DrawPieChart(Graphics g, float centerX, float centerY, float radius, int[] data)
+        private void DrawBarChart(Graphics g, float x, float y, float height, float width, (string ext, int amount)[] data, Color[] colors)
+        {
+            int length = data.Length;
+            if (data.Length == Constants.ChartCategoriesNumber)
+                length = Constants.ChartCategoriesNumber - 2;
+            for (int i = 0; i < length; i++)
+            {
+                g.DrawString(data[i].ext, DefaultFont, Brushes.Black, x + i * (width / (length + 1) + 3), y + height);
+                g.FillRectangle(new SolidBrush(colors[i]), x + i * (width / (length + 1) + 3),  y + height - ((float)data[i].amount / total) * height, width / (length + 1), ((float)data[i].amount / total) * height);
+                g.DrawRectangle(Pens.Black,x + i * (width / (length + 1) + 3),  y + height - ((float)data[i].amount / total) * height , width / (length + 1), ((float)data[i].amount / total) * height);
+            }
+        }
+        private void DrawPieChart(Graphics g, float centerX, float centerY, float radius, (string ext, int amount)[] data, Color[] colors)
         {
 
-            Random rnd = new Random();
             float startAngle = 0;
-            float endAngle = PercentToAngle(data[0]);
-            Brush brush = new SolidBrush(Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)));
+            float endAngle = 0;
             Pen pen = new Pen(Color.Black);
-
 
             g.DrawEllipse(pen, centerX - radius, centerY - radius,
                      radius + radius, radius + radius);
-            for (int i = 1; i < data.Length; i++)
+            int length = data.Length;
+            if(data.Length == Constants.ChartCategoriesNumber)
+                length = Constants.ChartCategoriesNumber - 2;
+            for (int i = 0; i < length; i++)
             {
-                endAngle = startAngle + PercentToAngle(data[i]);
-                g.FillPie(brush, centerX - radius, centerY - radius, 2 * radius, 2 * radius, startAngle, endAngle - startAngle);
+                Brush brush = new SolidBrush(colors[i]);
                 startAngle = endAngle;
-                brush = new SolidBrush(Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256)));
+                endAngle = endAngle + PercentToAngle(data[i].amount);
+                g.FillPie(brush, centerX - radius, centerY - radius, 2 * radius, 2 * radius, startAngle, endAngle - startAngle);
+                g.DrawPie(Pens.Black, centerX - radius, centerY - radius, 2 * radius, 2 * radius, startAngle, endAngle - startAngle);
+            }
+            if(length != data.Length)
+            {
+                startAngle = endAngle;
+                g.FillPie(new SolidBrush(colors[Constants.ChartCategoriesNumber - 1]), centerX - radius, centerY - radius, 2 * radius, 2 * radius, startAngle, 360 - startAngle);
+                g.DrawPie(Pens.Black, centerX - radius, centerY - radius, 2 * radius, 2 * radius, startAngle, 360 - startAngle);
+
             }
         }
-        private float PercentToAngle(int p)
+
+        private void DrawLegend(Graphics g, float centerX, float centerY, float radius, (string ext, int amount)[] data, Color[] colors)
         {
-            return ((float) p / 100) * 360;
+            int length = data.Length;
+            if (data.Length == Constants.ChartCategoriesNumber)
+                length = Constants.ChartCategoriesNumber - 2;
+
+            for (int i = 0; i < length; i++)
+            {
+                g.FillRectangle(new SolidBrush(colors[i]), centerX + radius + Constants.ChartMargin,
+                    centerY - radius + Constants.LegendLineHeight * i + (Constants.LegendColorRectHeight / 2),
+                    Constants.LegendColorRectWidth, Constants.LegendColorRectHeight);
+                g.DrawString($"{data[i].ext} {data[i].amount}", DefaultFont, Brushes.Black,
+                    centerX + radius + Constants.ChartMargin + Constants.LegendColorRectWidth, centerY - radius + Constants.LegendLineHeight * i);
+            }
+            if (length != data.Length)
+            {
+                g.FillRectangle(new SolidBrush(colors[Constants.ChartCategoriesNumber - 1]), centerX + radius + Constants.ChartMargin, centerY - radius + Constants.LegendLineHeight * (Constants.ChartCategoriesNumber - 2) + (Constants.LegendColorRectHeight / 2),
+                    Constants.LegendColorRectWidth, Constants.LegendColorRectHeight);
+                g.DrawString($"other", DefaultFont, Brushes.Black, centerX + radius + Constants.ChartMargin + Constants.LegendColorRectWidth, centerY - radius + Constants.LegendLineHeight * (Constants.ChartCategoriesNumber - 2));
+            }
         }
 
+
+        private float PercentToAngle(int p)
+        {
+            return ((float) p / total) * 360;
+        }
     }
 }

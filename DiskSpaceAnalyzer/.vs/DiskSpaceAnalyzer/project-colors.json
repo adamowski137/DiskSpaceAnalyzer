@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "99d3515e-0a61-4d56-b80b-b7c242c407cf": {
+      "ProjectGuid": "99d3515e-0a61-4d56-b80b-b7c242c407cf",
+      "DisplayName": "DiskSpaceAnalyzer",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

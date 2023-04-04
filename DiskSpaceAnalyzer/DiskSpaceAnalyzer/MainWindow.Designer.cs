@@ -55,9 +55,9 @@
             this.pathLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.ChartsTab = new System.Windows.Forms.TabPage();
-            this.FileCounter = new System.ComponentModel.BackgroundWorker();
-            this.label2 = new System.Windows.Forms.Label();
             this.SelectChartBox = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.FileCounter = new System.ComponentModel.BackgroundWorker();
             this.MainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -75,19 +75,22 @@
             // FileCounterProgresBar
             // 
             this.FileCounterProgresBar.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.FileCounterProgresBar.Location = new System.Drawing.Point(0, 427);
+            this.FileCounterProgresBar.Location = new System.Drawing.Point(0, 657);
+            this.FileCounterProgresBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FileCounterProgresBar.Name = "FileCounterProgresBar";
-            this.FileCounterProgresBar.Size = new System.Drawing.Size(800, 23);
+            this.FileCounterProgresBar.Size = new System.Drawing.Size(1200, 35);
             this.FileCounterProgresBar.TabIndex = 0;
             // 
             // MainMenu
             // 
+            this.MainMenu.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
+            this.MainMenu.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileMenuItem,
             this.helpMenuItem});
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.Size = new System.Drawing.Size(800, 24);
+            this.MainMenu.Size = new System.Drawing.Size(1200, 36);
             this.MainMenu.TabIndex = 1;
             this.MainMenu.Text = "menuStrip1";
             // 
@@ -98,27 +101,27 @@
             this.cancelMenuItem,
             this.exitMenuItem});
             this.fileMenuItem.Name = "fileMenuItem";
-            this.fileMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileMenuItem.Size = new System.Drawing.Size(54, 30);
             this.fileMenuItem.Text = "File";
             // 
             // selectMenuItem
             // 
             this.selectMenuItem.Name = "selectMenuItem";
-            this.selectMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.selectMenuItem.Size = new System.Drawing.Size(165, 34);
             this.selectMenuItem.Text = "Select";
             this.selectMenuItem.Click += new System.EventHandler(this.selectMenuItem_Click);
             // 
             // cancelMenuItem
             // 
             this.cancelMenuItem.Name = "cancelMenuItem";
-            this.cancelMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cancelMenuItem.Size = new System.Drawing.Size(165, 34);
             this.cancelMenuItem.Text = "Cancel";
             this.cancelMenuItem.Click += new System.EventHandler(this.cancelMenuItem_Click);
             // 
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(165, 34);
             this.exitMenuItem.Text = "Exit";
             // 
             // helpMenuItem
@@ -126,19 +129,20 @@
             this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutMenuItem});
             this.helpMenuItem.Name = "helpMenuItem";
-            this.helpMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpMenuItem.Size = new System.Drawing.Size(65, 30);
             this.helpMenuItem.Text = "Help";
             // 
             // aboutMenuItem
             // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutMenuItem.Size = new System.Drawing.Size(164, 34);
             this.aboutMenuItem.Text = "About";
             // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 36);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -148,8 +152,9 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(800, 403);
-            this.splitContainer1.SplitterDistance = 266;
+            this.splitContainer1.Size = new System.Drawing.Size(1200, 621);
+            this.splitContainer1.SplitterDistance = 399;
+            this.splitContainer1.SplitterWidth = 6;
             this.splitContainer1.TabIndex = 2;
             // 
             // splitContainer2
@@ -158,6 +163,7 @@
             this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -168,15 +174,17 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.FolderTree);
-            this.splitContainer2.Size = new System.Drawing.Size(266, 403);
+            this.splitContainer2.Size = new System.Drawing.Size(399, 621);
             this.splitContainer2.SplitterDistance = 27;
+            this.splitContainer2.SplitterWidth = 6;
             this.splitContainer2.TabIndex = 0;
             // 
             // SelectButton
             // 
-            this.SelectButton.Location = new System.Drawing.Point(188, 1);
+            this.SelectButton.Location = new System.Drawing.Point(282, 2);
+            this.SelectButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SelectButton.Name = "SelectButton";
-            this.SelectButton.Size = new System.Drawing.Size(75, 23);
+            this.SelectButton.Size = new System.Drawing.Size(112, 35);
             this.SelectButton.TabIndex = 0;
             this.SelectButton.Text = "Select";
             this.SelectButton.UseVisualStyleBackColor = true;
@@ -186,8 +194,9 @@
             // 
             this.FolderTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FolderTree.Location = new System.Drawing.Point(0, 0);
+            this.FolderTree.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.FolderTree.Name = "FolderTree";
-            this.FolderTree.Size = new System.Drawing.Size(266, 372);
+            this.FolderTree.Size = new System.Drawing.Size(399, 588);
             this.FolderTree.TabIndex = 0;
             this.FolderTree.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.FolderTree_AfterExpand);
             this.FolderTree.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.FolderTree_AfterSelect);
@@ -198,9 +207,10 @@
             this.tabControl1.Controls.Add(this.ChartsTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(530, 403);
+            this.tabControl1.Size = new System.Drawing.Size(795, 621);
             this.tabControl1.TabIndex = 0;
             // 
             // DetailsTab
@@ -217,10 +227,11 @@
             this.DetailsTab.Controls.Add(this.label3);
             this.DetailsTab.Controls.Add(this.pathLabel);
             this.DetailsTab.Controls.Add(this.label1);
-            this.DetailsTab.Location = new System.Drawing.Point(4, 22);
+            this.DetailsTab.Location = new System.Drawing.Point(4, 29);
+            this.DetailsTab.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.DetailsTab.Name = "DetailsTab";
-            this.DetailsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.DetailsTab.Size = new System.Drawing.Size(522, 377);
+            this.DetailsTab.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.DetailsTab.Size = new System.Drawing.Size(787, 588);
             this.DetailsTab.TabIndex = 0;
             this.DetailsTab.Text = "Details";
             this.DetailsTab.UseVisualStyleBackColor = true;
@@ -228,102 +239,114 @@
             // LastChangeLabel
             // 
             this.LastChangeLabel.AutoSize = true;
-            this.LastChangeLabel.Location = new System.Drawing.Point(98, 169);
+            this.LastChangeLabel.Location = new System.Drawing.Point(147, 260);
+            this.LastChangeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LastChangeLabel.Name = "LastChangeLabel";
-            this.LastChangeLabel.Size = new System.Drawing.Size(0, 13);
+            this.LastChangeLabel.Size = new System.Drawing.Size(0, 20);
             this.LastChangeLabel.TabIndex = 11;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(19, 169);
+            this.label10.Location = new System.Drawing.Point(28, 260);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(70, 13);
+            this.label10.Size = new System.Drawing.Size(104, 20);
             this.label10.TabIndex = 10;
             this.label10.Text = "Last Change:";
             // 
             // SubdirsLabel
             // 
             this.SubdirsLabel.AutoSize = true;
-            this.SubdirsLabel.Location = new System.Drawing.Point(98, 137);
+            this.SubdirsLabel.Location = new System.Drawing.Point(147, 211);
+            this.SubdirsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.SubdirsLabel.Name = "SubdirsLabel";
-            this.SubdirsLabel.Size = new System.Drawing.Size(0, 13);
+            this.SubdirsLabel.Size = new System.Drawing.Size(0, 20);
             this.SubdirsLabel.TabIndex = 9;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(19, 137);
+            this.label12.Location = new System.Drawing.Point(28, 211);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(45, 13);
+            this.label12.Size = new System.Drawing.Size(67, 20);
             this.label12.TabIndex = 8;
             this.label12.Text = "Subdirs:";
             // 
             // FilesLabel
             // 
             this.FilesLabel.AutoSize = true;
-            this.FilesLabel.Location = new System.Drawing.Point(98, 109);
+            this.FilesLabel.Location = new System.Drawing.Point(147, 168);
+            this.FilesLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.FilesLabel.Name = "FilesLabel";
-            this.FilesLabel.Size = new System.Drawing.Size(0, 13);
+            this.FilesLabel.Size = new System.Drawing.Size(0, 20);
             this.FilesLabel.TabIndex = 7;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 109);
+            this.label6.Location = new System.Drawing.Point(28, 168);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(31, 13);
+            this.label6.Size = new System.Drawing.Size(46, 20);
             this.label6.TabIndex = 6;
             this.label6.Text = "Files:";
             // 
             // ItemsLabel
             // 
             this.ItemsLabel.AutoSize = true;
-            this.ItemsLabel.Location = new System.Drawing.Point(98, 81);
+            this.ItemsLabel.Location = new System.Drawing.Point(147, 125);
+            this.ItemsLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.ItemsLabel.Name = "ItemsLabel";
-            this.ItemsLabel.Size = new System.Drawing.Size(0, 13);
+            this.ItemsLabel.Size = new System.Drawing.Size(0, 20);
             this.ItemsLabel.TabIndex = 5;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(19, 81);
+            this.label8.Location = new System.Drawing.Point(28, 125);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.Size = new System.Drawing.Size(53, 20);
             this.label8.TabIndex = 4;
             this.label8.Text = "Items:";
             // 
             // SizeLabel
             // 
             this.SizeLabel.AutoSize = true;
-            this.SizeLabel.Location = new System.Drawing.Point(98, 57);
+            this.SizeLabel.Location = new System.Drawing.Point(147, 88);
+            this.SizeLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.SizeLabel.Name = "SizeLabel";
-            this.SizeLabel.Size = new System.Drawing.Size(0, 13);
+            this.SizeLabel.Size = new System.Drawing.Size(0, 20);
             this.SizeLabel.TabIndex = 3;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 57);
+            this.label3.Location = new System.Drawing.Point(28, 88);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.Size = new System.Drawing.Size(44, 20);
             this.label3.TabIndex = 2;
             this.label3.Text = "Size:";
             // 
             // pathLabel
             // 
             this.pathLabel.AutoSize = true;
-            this.pathLabel.Location = new System.Drawing.Point(98, 27);
+            this.pathLabel.Location = new System.Drawing.Point(147, 42);
+            this.pathLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.pathLabel.Name = "pathLabel";
-            this.pathLabel.Size = new System.Drawing.Size(0, 13);
+            this.pathLabel.Size = new System.Drawing.Size(0, 20);
             this.pathLabel.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 27);
+            this.label1.Location = new System.Drawing.Point(28, 42);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.Size = new System.Drawing.Size(75, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Full Path:";
             // 
@@ -331,14 +354,38 @@
             // 
             this.ChartsTab.Controls.Add(this.SelectChartBox);
             this.ChartsTab.Controls.Add(this.label2);
-            this.ChartsTab.Location = new System.Drawing.Point(4, 22);
+            this.ChartsTab.Location = new System.Drawing.Point(4, 29);
+            this.ChartsTab.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ChartsTab.Name = "ChartsTab";
-            this.ChartsTab.Padding = new System.Windows.Forms.Padding(3);
-            this.ChartsTab.Size = new System.Drawing.Size(522, 377);
+            this.ChartsTab.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ChartsTab.Size = new System.Drawing.Size(787, 587);
             this.ChartsTab.TabIndex = 1;
             this.ChartsTab.Text = "Charts";
             this.ChartsTab.UseVisualStyleBackColor = true;
             this.ChartsTab.Paint += new System.Windows.Forms.PaintEventHandler(this.ChartsTab_Paint);
+            // 
+            // SelectChartBox
+            // 
+            this.SelectChartBox.BackColor = System.Drawing.SystemColors.Window;
+            this.SelectChartBox.Items.AddRange(new object[] {
+            "Pie chart",
+            "Bar chart",
+            "Log bar chart"});
+            this.SelectChartBox.Location = new System.Drawing.Point(140, 38);
+            this.SelectChartBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.SelectChartBox.Name = "SelectChartBox";
+            this.SelectChartBox.Size = new System.Drawing.Size(180, 28);
+            this.SelectChartBox.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(27, 38);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(86, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Chart type:";
             // 
             // FileCounter
             // 
@@ -348,36 +395,16 @@
             this.FileCounter.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.FileCounter_ProgressChanged);
             this.FileCounter.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.FileCounter_RunWorkerCompleted);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(18, 25);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Chart type:";
-            // 
-            // SelectChartBox
-            // 
-            this.SelectChartBox.BackColor = System.Drawing.SystemColors.Window;
-            this.SelectChartBox.Items.AddRange(new object[] {
-            "Pie chart",
-            "Bar chart",
-            "Log bar chart"});
-            this.SelectChartBox.Location = new System.Drawing.Point(93, 25);
-            this.SelectChartBox.Name = "SelectChartBox";
-            this.SelectChartBox.Size = new System.Drawing.Size(121, 21);
-            this.SelectChartBox.TabIndex = 1;
-            // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1200, 692);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.FileCounterProgresBar);
             this.Controls.Add(this.MainMenu);
             this.MainMenuStrip = this.MainMenu;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.MainMenu.ResumeLayout(false);

@@ -83,7 +83,7 @@ namespace DiskSpaceAnalyzer
         private void SelectFolderButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
-            DialogResult dialogResult = folderBrowserDialog.ShowDialog(this);
+            DialogResult dialogResult = folderBrowserDialog.ShowDialog();
             if (dialogResult == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
                 FolderTextBox.Text = folderBrowserDialog.SelectedPath;
