@@ -87,6 +87,7 @@ namespace DiskSpaceAnalyzer
             if (dialogResult == DialogResult.OK && !string.IsNullOrWhiteSpace(folderBrowserDialog.SelectedPath))
             {
                 FolderTextBox.Text = folderBrowserDialog.SelectedPath;
+                FolderButton.Select();
             }
         }
 
@@ -119,6 +120,13 @@ namespace DiskSpaceAnalyzer
         private void FolderTextBox_TextChanged(object sender, EventArgs e)
         {
             HandleFolderInput();
+        }
+
+
+        private void DrivesInfoListView_Click_1(object sender, EventArgs e)
+        {
+            IndividualDrivesButton.Select();
+            DrivesInfoListView.Select();
         }
     }
 }

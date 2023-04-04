@@ -21,7 +21,7 @@ namespace DiskSpaceAnalyzer
         
         public static readonly int BiteToKilo = 1024;
         
-        public static readonly int ChartMargin = 20;
+        public static readonly int ChartMargin = 15;
         public static readonly int ChartCategoriesNumber = 11;
 
         public static readonly int LegendWidth = 50;
@@ -29,6 +29,7 @@ namespace DiskSpaceAnalyzer
         public static readonly int LegendColorRectHeight = 7;
         public static readonly int LegendColorRectWidth = 10;
 
-        public static readonly int BarWidth = 10;
+        public static readonly int BarGap = 7;
+        public static readonly int TopMargin = 50;
     }
 }

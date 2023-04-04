@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChartDrawer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DialogWindow.cs">
       <SubType>Form</SubType>
