@@ -96,7 +96,7 @@ namespace DiskSpaceAnalyzer
                 {
                     am -= data[i].amount;
                 }
-                float barH = (float)Math.Log10(am / max);
+                float barH = (float)Math.Log10(am / max + 1);
                 g.DrawString($"other", font, Brushes.Black, x + length * (barWidth + Constants.BarGap), y + height);
                 g.FillRectangle(new SolidBrush(colors[length]), x + length * (barWidth + Constants.BarGap), y + height - barH * height, barWidth, barH * height);
                 g.DrawRectangle(Pens.Black, x + (length) * (barWidth + Constants.BarGap), y + height - barH * height, barWidth, barH * height);
@@ -142,7 +142,7 @@ namespace DiskSpaceAnalyzer
                 g.FillRectangle(new SolidBrush(colors[i]), centerX + radius + Constants.ChartMargin,
                     centerY - radius + Constants.LegendLineHeight * i + (Constants.LegendColorRectHeight / 2),
                     Constants.LegendColorRectWidth, Constants.LegendColorRectHeight);
-                g.DrawString($"{data[i].ext} - {data[i].amount}", Form.Font, Brushes.Black,
+                g.DrawString($"{data[i].ext} - {data[i].amount.ToString("0.00")}", Form.Font, Brushes.Black,
                     centerX + radius + Constants.ChartMargin + Constants.LegendColorRectWidth, centerY - radius + Constants.LegendLineHeight * i);
             }
             if (length != data.Length)
@@ -152,9 +152,10 @@ namespace DiskSpaceAnalyzer
                 {
                     am -= data[i].amount;
                 }
+                
                 g.FillRectangle(new SolidBrush(colors[Constants.ChartCategoriesNumber - 1]), centerX + radius + Constants.ChartMargin, centerY - radius + Constants.LegendLineHeight * (Constants.ChartCategoriesNumber - 2) + (Constants.LegendColorRectHeight / 2),
                     Constants.LegendColorRectWidth, Constants.LegendColorRectHeight);
-                g.DrawString($"other - {am}", Form.Font, Brushes.Black, centerX + radius + Constants.ChartMargin + Constants.LegendColorRectWidth, centerY - radius + Constants.LegendLineHeight * (Constants.ChartCategoriesNumber - 2));
+                g.DrawString($"other - {am.ToString("0.00")}", Form.Font, Brushes.Black, centerX + radius + Constants.ChartMargin + Constants.LegendColorRectWidth, centerY - radius + Constants.LegendLineHeight * (Constants.ChartCategoriesNumber - 2));
             }
         }
         private float PercentToAngle(float p, float max)

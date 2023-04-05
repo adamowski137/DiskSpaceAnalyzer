@@ -14,22 +14,36 @@ namespace DiskSpaceAnalyzer
 {
     public partial class MainWindow : Form
     {
-        private string selectedOption = "";
+        private string selectedOption = "/";
         private string selectedNode = "/";
         private SortedDictionary<string, int> extensionsCount;
         private SortedDictionary<string, float> extensionsFloat;
         private int FileCount;
         private float FileSize;
+        private Color[] colors;
         public MainWindow()
         {
             extensionsCount = new SortedDictionary<string, int>();
             extensionsFloat = new SortedDictionary<string, float>();
+            Random rnd = new Random();
+
+            colors = new Color[Constants.ChartCategoriesNumber];
+            for (int i = 0; i < Constants.ChartCategoriesNumber; i++)
+            {
+                colors[i] = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+            }
 
             this.MinimumSize = new Size(Constants.MainWindowWidth, Constants.MainWindowHeight);
             InitializeComponent();
+
             FileCounterProgresBar.Visible = true;
             FileCounterProgresBar.Minimum = 0;
             FileCounterProgresBar.Maximum = 100;
+            FileCounterProgresBar.Value = 0;
+            UpdateTree();
+            
+            selectedNode = selectedOption;
+            RestartCounter();
         }
 
         private void handleDialogWindow()
@@ -41,26 +55,9 @@ namespace DiskSpaceAnalyzer
                 selectedOption =  dialogWindow.SelectedOption;
             }
 
-            if (selectedOption == "") return;
-            FolderTree.BeginUpdate();
-            FolderTree.Nodes.Clear();
-            FolderTree.Nodes.Add(selectedOption);
-            foreach(var dir in Directory.GetDirectories(selectedOption))
-                FolderTree.Nodes[0].Nodes.Add(dir);
-            var files = Directory.GetFiles(selectedOption);
-            if (files.Length < Constants.FileNodeMin)
-                foreach (var file in files)
-                    FolderTree.Nodes[0].Nodes.Add(file);
-            else
-                FolderTree.Nodes[0].Nodes.Add(Constants.FileNodeName);
-            FolderTree.EndUpdate();
+            UpdateTree();
             selectedNode = selectedOption;
-            FileCounter.CancelAsync();
-            while (FileCounter.IsBusy)
-            {
-                Application.DoEvents();
-            }
-            FileCounter.RunWorkerAsync();
+            RestartCounter();
 
         }
 
@@ -164,9 +161,9 @@ namespace DiskSpaceAnalyzer
                     FileInfo fi = new FileInfo(file);
                     size += (int) fi.Length;
                     if (extensionsFloat.ContainsKey(fi.Extension))
-                        extensionsFloat[fi.Extension] += fi.Length / (Constants.BiteToKilo * Constants.BiteToKilo);
+                        extensionsFloat[fi.Extension] += fi.Length / (Constants.BiteToKilo);
                     else
-                        extensionsFloat[fi.Extension] = fi.Length / (Constants.BiteToKilo * Constants.BiteToKilo);
+                        extensionsFloat[fi.Extension] = fi.Length / (Constants.BiteToKilo);
 
                     if (extensionsCount.ContainsKey(fi.Extension))
                         extensionsCount[fi.Extension] += 1;
@@ -196,7 +193,7 @@ namespace DiskSpaceAnalyzer
                 pathLabel.Text = selectedNode;
 
                 FileCount = int.Parse(ans[0]);
-                FileSize = float.Parse(ans[1])/(Constants.BiteToKilo * Constants.BiteToKilo);
+                FileSize = float.Parse(ans[1])/(Constants.BiteToKilo);
                 FileCounterProgresBar.Value = 0;
                 ChartsTab.Refresh();
             }
@@ -218,7 +215,7 @@ namespace DiskSpaceAnalyzer
             }
             extensionsCount.Clear();
             extensionsFloat.Clear();
-
+            FileCounterProgresBar.Value = 0;
             FileCounter.RunWorkerAsync();
         }
 
@@ -239,22 +236,18 @@ namespace DiskSpaceAnalyzer
 
             if (data.Length == 0)
                 return;
-            Random rnd = new Random();
+
             Graphics g = e.Graphics;
-            Color[] colors = new Color[Constants.ChartCategoriesNumber];
-            for (int i = 0; i < Constants.ChartCategoriesNumber; i++)
-            {
-                colors[i] = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(0, 256));
-            }
+            
 
             ChartDrawer chartDrawer = new ChartDrawer(g, this);
             
             if (SelectChartBox.SelectedIndex == 0)
             {
-                chartDrawer.DrawPieChart(ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors, FileCount);
-                chartDrawer.DrawLegend(ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors, FileCount);
-                chartDrawer.DrawPieChart(3 * ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data2, colors, FileSize);
-                chartDrawer.DrawLegend(3 * ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data2, colors, FileSize);
+                chartDrawer.DrawPieChart(ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth - Constants.LeftLegenConstant, data, colors, FileCount);
+                chartDrawer.DrawLegend(ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors, FileCount);
+                chartDrawer.DrawPieChart(3 * ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth - Constants.LeftLegenConstant, data2, colors, FileSize);
+                chartDrawer.DrawLegend(3 * ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data2, colors, FileSize);
             }
             if (SelectChartBox.SelectedIndex == 1)
             {
@@ -268,8 +261,8 @@ namespace DiskSpaceAnalyzer
                 g.FillRectangle(Brushes.LightGray, chartRect1);
                 g.FillRectangle(Brushes.LightGray, chartRect2);
 
-                chartDrawer.DrawLines(X, Y, W, H, 5, FileCount);
-                chartDrawer.DrawLines(chartRect2.X, chartRect2.Y, W, H, 5, FileSize);
+                chartDrawer.DrawLines(X, Y, W, H, Constants.LinesNumber, FileCount);
+                chartDrawer.DrawLines(chartRect2.X, chartRect2.Y, W, H, Constants.LinesNumber, FileSize);
 
                 chartDrawer.DrawBarChart(X + Constants.BarGap, Y, W, H, data, colors, FileCount);
                 chartDrawer.DrawBarChart(ChartsTab.Width / 2 + X + Constants.BarGap, Y, W, H, data2, colors, FileSize);
@@ -286,8 +279,8 @@ namespace DiskSpaceAnalyzer
                 g.FillRectangle(Brushes.LightGray, chartRect1);
                 g.FillRectangle(Brushes.LightGray, chartRect2);
 
-                chartDrawer.DrawLogLines(X, Y, W, H, 5, FileCount);
-                chartDrawer.DrawLogLines(chartRect2.X, chartRect2.Y, W, H, 5, FileSize);
+                chartDrawer.DrawLogLines(X, Y, W, H, Constants.LinesNumber, FileCount);
+                chartDrawer.DrawLogLines(chartRect2.X, chartRect2.Y, W, H, Constants.LinesNumber, FileSize);
 
                 chartDrawer.DrawLogBarChart(X + Constants.BarGap, Y, W, H, data, colors,(float) FileCount);
                 chartDrawer.DrawLogBarChart(ChartsTab.Width / 2 + X + Constants.BarGap, Y, W, H, data2, colors, FileSize);
@@ -302,6 +295,34 @@ namespace DiskSpaceAnalyzer
         private void exitMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+
+        private void UpdateTree()
+        {
+            if (selectedOption == "") return;
+            FolderTree.BeginUpdate();
+            FolderTree.Nodes.Clear();
+            FolderTree.Nodes.Add(selectedOption);
+            foreach (var dir in Directory.GetDirectories(selectedOption))
+                FolderTree.Nodes[0].Nodes.Add(dir);
+            var files = Directory.GetFiles(selectedOption);
+            if (files.Length < Constants.FileNodeMin)
+                foreach (var file in files)
+                    FolderTree.Nodes[0].Nodes.Add(file);
+            else
+                FolderTree.Nodes[0].Nodes.Add(Constants.FileNodeName);
+            FolderTree.EndUpdate();
+        }
+
+        private void RestartCounter()
+        {
+            FileCounter.CancelAsync();
+            while (FileCounter.IsBusy)
+            {
+                Application.DoEvents();
+            }
+            FileCounter.RunWorkerAsync();
         }
     }
 }

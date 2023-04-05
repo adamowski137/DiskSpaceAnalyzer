@@ -31,5 +31,8 @@ namespace DiskSpaceAnalyzer
 
         public static readonly int BarGap = 7;
         public static readonly int TopMargin = 50;
+        public static readonly int LeftLegenConstant = 10;
+
+        public static readonly int LinesNumber = 5;
     }
 }
