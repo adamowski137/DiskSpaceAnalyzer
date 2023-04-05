@@ -14,7 +14,7 @@ namespace DiskSpaceAnalyzer
 {
     public partial class MainWindow : Form
     {
-        private string selectedOption = "/";
+        private string[] selectedOption;
         private string selectedNode = "/";
         private SortedDictionary<string, int> extensionsCount;
         private SortedDictionary<string, float> extensionsFloat;
@@ -41,8 +41,14 @@ namespace DiskSpaceAnalyzer
             FileCounterProgresBar.Maximum = 100;
             FileCounterProgresBar.Value = 0;
             UpdateTree();
-            
-            selectedNode = selectedOption;
+            try
+            {
+
+                selectedOption = Directory.GetLogicalDrives();
+            }
+            catch
+            {}
+            selectedNode = selectedOption[0];
             RestartCounter();
         }
 
@@ -56,7 +62,7 @@ namespace DiskSpaceAnalyzer
             }
 
             UpdateTree();
-            selectedNode = selectedOption;
+            selectedNode = selectedOption[0];
             RestartCounter();
 
         }
@@ -221,6 +227,7 @@ namespace DiskSpaceAnalyzer
 
         private void cancelMenuItem_Click(object sender, EventArgs e)
         {
+            RestartCounter();
             FileCounter.CancelAsync();
         }
 
@@ -246,6 +253,7 @@ namespace DiskSpaceAnalyzer
             {
                 chartDrawer.DrawPieChart(ChartsTab.Width / 4 - Constants.LegendWidth, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth - Constants.LeftLegenConstant, data, colors, FileCount);
                 chartDrawer.DrawLegend(ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data, colors, FileCount);
+                chartDrawer.DrawPieChart(3 * ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth - Constants.LeftLegenConstant, data2, colors, FileSize);
                 chartDrawer.DrawPieChart(3 * ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth - Constants.LeftLegenConstant, data2, colors, FileSize);
                 chartDrawer.DrawLegend(3 * ChartsTab.Width / 4 - Constants.LegendWidth - Constants.LeftLegenConstant, ChartsTab.Height / 2, (ChartsTab.Width / 4) - Constants.LegendWidth, data2, colors, FileSize);
             }
@@ -300,18 +308,24 @@ namespace DiskSpaceAnalyzer
 
         private void UpdateTree()
         {
-            if (selectedOption == "") return;
+            if (selectedOption == null) return;
+            if (selectedOption.Length == 0) return;
+
             FolderTree.BeginUpdate();
             FolderTree.Nodes.Clear();
-            FolderTree.Nodes.Add(selectedOption);
-            foreach (var dir in Directory.GetDirectories(selectedOption))
-                FolderTree.Nodes[0].Nodes.Add(dir);
-            var files = Directory.GetFiles(selectedOption);
-            if (files.Length < Constants.FileNodeMin)
-                foreach (var file in files)
-                    FolderTree.Nodes[0].Nodes.Add(file);
-            else
-                FolderTree.Nodes[0].Nodes.Add(Constants.FileNodeName);
+            for(int i = 0; i < selectedOption.Length; i++)
+            {
+                FolderTree.Nodes.Add(selectedOption[i]);
+                foreach (var dir in Directory.GetDirectories(selectedOption[i]))
+                    FolderTree.Nodes[0].Nodes.Add(dir);
+                var files = Directory.GetFiles(selectedOption[i]);
+                if (files.Length < Constants.FileNodeMin)
+                    foreach (var file in files)
+                        FolderTree.Nodes[i].Nodes.Add(file);
+                else
+                    FolderTree.Nodes[i].Nodes.Add(Constants.FileNodeName);
+
+            }
             FolderTree.EndUpdate();
         }
 

@@ -10,3 +10,15 @@ C:\Users\adam\Desktop\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnal
 C:\Users\adam\Desktop\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.csproj.CoreCompileInputs.cache
 C:\Users\adam\Desktop\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.exe
 C:\Users\adam\Desktop\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.pdb
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\bin\Debug\DiskSpaceAnalyzer.exe.config
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\bin\Debug\DiskSpaceAnalyzer.exe
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\bin\Debug\DiskSpaceAnalyzer.pdb
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.csproj.AssemblyReference.cache
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.csproj.SuggestedBindingRedirects.cache
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.DialogWindow.resources
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.MainWindow.resources
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.Properties.Resources.resources
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.csproj.GenerateResource.cache
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.csproj.CoreCompileInputs.cache
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.exe
+C:\Users\adamz\OneDrive\Pulpit\projekty\DiskSpaceAnalyzer\DiskSpaceAnalyzer\DiskSpaceAnalyzer\obj\Debug\DiskSpaceAnalyzer.pdb

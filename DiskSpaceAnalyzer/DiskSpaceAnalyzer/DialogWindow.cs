@@ -16,7 +16,7 @@ namespace DiskSpaceAnalyzer
 {
     public partial class DialogWindow : Form
     {
-        public string SelectedOption { get; private set; }
+        public string[] SelectedOption { get; private set; }
         public DialogWindow()
         {
             this.MinimumSize = new Size(Constants.DialogWindowWidth, Constants.DialogWindowHeight);
@@ -64,13 +64,14 @@ namespace DiskSpaceAnalyzer
         private void OKButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
+            List<string> temp = new List<string>();
             if (IndividualDrivesButton.Checked == true && DrivesInfoListView.SelectedItems.Count > 0)
-                SelectedOption = DrivesInfoListView.SelectedItems[0].Text;
+                temp.Add(DrivesInfoListView.SelectedItems[0].Text);
             else if (AllLocalButton.Checked == true)
-                SelectedOption = "/";
+                temp.Add("/");
             else if (FolderButton.Checked == true && FolderTextBox.Text != "")
-                SelectedOption = FolderTextBox.Text;
-            else SelectedOption = "";
+                temp.Add(FolderTextBox.Text);
+            SelectedOption = temp.ToArray();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
